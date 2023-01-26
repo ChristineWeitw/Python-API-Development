@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from datetime import datetime
 # pydantic schema
 
@@ -21,5 +21,12 @@ class Post(PostBase):
         orm_mode = True
 
 class UserCreate(BaseModel):
-    email: str
+    email: EmailStr
     password: str
+
+class UserOut(BaseModel):
+    id: int
+    email: EmailStr
+    # This allows pydantic to convert the SQLALCHEMY model into readable dict
+    class Config:
+        orm_mode = True

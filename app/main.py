@@ -1,7 +1,7 @@
 from multiprocessing import synchronize
 from typing import Optional, List
 from fastapi import FastAPI, Response, status, HTTPException, Depends
-from pydantic import BaseModel
+# from pydantic import BaseModel, EmailStr
 from random import randrange
 import psycopg2
 from psycopg2.extras import RealDictCursor
@@ -126,6 +126,10 @@ def update_post(id: int, updated_post:schemas.PostCreate, db: Session = Depends(
     return post_query.first()
 
 
-@app.post("/users", status_code=status.HTTP_201_CREATED)
-def create_user(,  db: Session = Depends(get_db)):
-     
+@app.post("/users", status_code=status.HTTP_201_CREATED, response_model=schemas.UserOut)
+def create_user(user: schemas.UserCreate,  db: Session = Depends(get_db)):
+    new_user = models.User(**user.dict())
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user) 
+    return new_user
