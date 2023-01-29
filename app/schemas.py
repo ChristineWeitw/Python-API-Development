@@ -31,3 +31,7 @@ class UserOut(BaseModel):
     # This allows pydantic to convert the SQLALCHEMY model into readable dict
     class Config:
         orm_mode = True
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
