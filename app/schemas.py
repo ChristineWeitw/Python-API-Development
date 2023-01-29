@@ -27,6 +27,7 @@ class UserCreate(BaseModel):
 class UserOut(BaseModel):
     id: int
     email: EmailStr
+    created_at: datetime
     # This allows pydantic to convert the SQLALCHEMY model into readable dict
     class Config:
         orm_mode = True
