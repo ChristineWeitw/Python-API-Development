@@ -4,9 +4,11 @@ from fastapi import FastAPI, Response, status, HTTPException, Depends, APIRouter
 from sqlalchemy.orm import Session
 from typing import List
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/posts"
+)
 
-@router.get("/posts", response_model=List[schemas.Post])
+@router.get("/", response_model=List[schemas.Post])
 def get_posts(db: Session = Depends(get_db)):
     ## SQL
     # cursor.execute("""SELECT * FROM posts;""")
@@ -16,7 +18,7 @@ def get_posts(db: Session = Depends(get_db)):
     posts = db.query(models.Post).all()
     return posts
 
-@router.post("/posts", status_code=status.HTTP_201_CREATED, response_model=schemas.Post)
+@router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.Post)
 def create_posts(post: schemas.PostCreate, db: Session = Depends(get_db)):
     ## SQL
     # cursor.execute("""INSERT INTO posts (title, content, published) VALUES (%s, %s, %s) 
@@ -32,7 +34,7 @@ def create_posts(post: schemas.PostCreate, db: Session = Depends(get_db)):
     db.refresh(new_post) # this refresh variable new_post with id, timestamp and save it
     return new_post
 
-@router.get("/posts/{id}")
+@router.get("/{id}")
 def get_post(id: int, db: Session = Depends(get_db)):
     ## SQL
     # cursor.execute("""SELECT * FROM posts WHERE id = %s;""", str(id))
@@ -50,7 +52,7 @@ def get_post(id: int, db: Session = Depends(get_db)):
         # return {"message": f"post with id: {id} was not found."}
     return post
 
-@router.delete("/posts/{id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_post(id: int, db: Session = Depends(get_db)):
     ## SQL
     # cursor.execute("""DELETE FROM posts WHERE id = %s 
@@ -69,7 +71,7 @@ def delete_post(id: int, db: Session = Depends(get_db)):
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
-@router.put("/posts/{id}", response_model=schemas.Post)
+@router.put("/{id}", response_model=schemas.Post)
 def update_post(id: int, updated_post:schemas.PostCreate, db: Session = Depends(get_db)):
     ## SQL
     # cursor.execute("""UPDATE posts SET title = %s, content = %s, published = %s
