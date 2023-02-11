@@ -5,7 +5,7 @@ from .. import database, schemas, models, utils, oauth2
 
 router = APIRouter(tags=['Authentication'])  #tag is for documentation
 
-@router.post("/login")
+@router.post("/login", response_model=schemas.Token)
 # OAuth2PasswordRequestForm is a fastapi builtin, that provides the basics form alike input form
 # equals to how we do in schemas 'UserLogin' requirements form 
 def login(user_credentials: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(database.get_db)):
