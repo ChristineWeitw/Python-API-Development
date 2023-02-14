@@ -12,12 +12,20 @@ class PostBase(BaseModel):
 class PostCreate(PostBase):
     pass
 
+class UserOut(BaseModel):
+    id: int
+    email: EmailStr
+    created_at: datetime
+    # This allows pydantic to convert the SQLALCHEMY model into readable dict
+    class Config:
+        orm_mode = True
 # API --> User
 class Post(PostBase):
     # the other 3 are being automatically inherited
     id: int
     created_at: datetime
     owner_id: int
+    owner: UserOut
     # To let the input convert into a dict format
     class Config:
         orm_mode = True
@@ -26,13 +34,7 @@ class UserCreate(BaseModel):
     email: EmailStr
     password: str
 
-class UserOut(BaseModel):
-    id: int
-    email: EmailStr
-    created_at: datetime
-    # This allows pydantic to convert the SQLALCHEMY model into readable dict
-    class Config:
-        orm_mode = True
+
 
 class UserLogin(BaseModel):
     email: EmailStr

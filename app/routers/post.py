@@ -36,7 +36,7 @@ def create_posts(post: schemas.PostCreate, db: Session = Depends(get_db), curren
     db.refresh(new_post) # this refresh variable new_post with id, timestamp and save it
     return new_post
 
-@router.get("/{id}")
+@router.get("/{id}", response_model=schemas.Post)
 def get_post(id: int, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
     ## SQL
     # cursor.execute("""SELECT * FROM posts WHERE id = %s;""", str(id))
