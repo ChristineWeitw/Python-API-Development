@@ -17,6 +17,7 @@ class Post(PostBase):
     # the other 3 are being automatically inherited
     id: int
     created_at: datetime
+    owner_id: int
     # To let the input convert into a dict format
     class Config:
         orm_mode = True

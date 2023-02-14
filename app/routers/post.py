@@ -28,7 +28,7 @@ def create_posts(post: schemas.PostCreate, db: Session = Depends(get_db), curren
     #                 (post.title, post.content, post.published))
     # new_post = cursor.fetchone()
     # conn.commit()
-    print(current_user.email)
+    print(current_user.id)
     ## ORM
     new_post = models.Post(**post.dict())
     db.add(new_post)
