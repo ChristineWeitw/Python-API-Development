@@ -26,3 +26,4 @@ def get_user(id: int, db: Session = Depends(get_db)):
     if not user:
         raise HTTPException(satus_code=status.HTTP_404_NOT_FOUND, detail=f"User with id: {id} does it exist.")
     return user 
+

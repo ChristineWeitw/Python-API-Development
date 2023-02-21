@@ -18,6 +18,7 @@ depends_on = None
 
 def upgrade() -> None:
     op.add_column('posts', sa.Column('content', sa.String(), nullable=False))
+    
     pass
 
 
